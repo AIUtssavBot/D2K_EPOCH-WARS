@@ -12,6 +12,7 @@ const inter = Inter({ subsets: ["latin"] })
 export const metadata: Metadata = {
   title: "Facility Dashboard",
   description: "Monitor task performance, visualize trends, and manage risk",
+    generator: 'v0.dev'
 }
 
 export default function RootLayout({
@@ -36,3 +37,6 @@ export default function RootLayout({
   )
 }
 
+
+
+import './globals.css'
