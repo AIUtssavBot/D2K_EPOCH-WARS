@@ -52,6 +52,25 @@ export function TaskMissHeatmap() {
   const [activeTab, setActiveTab] = useState("weekly")
   const data = activeTab === "weekly" ? weeklyData : monthlyData
 
+  // Custom tooltip render function
+  const renderTooltip = ({ active, payload }: any) => {
+    if (active && payload && payload.length) {
+      const data = payload[0].payload
+      return (
+        <ChartTooltip>
+          <ChartTooltipContent>
+            <div className="font-medium">{areaNames[data.area]}</div>
+            <div className="text-sm text-muted-foreground">
+              {activeTab === "weekly" ? dayNames[data.day] : `Day ${data.day + 1}`}
+            </div>
+            <div className="mt-2 font-bold">{data.value}% Miss Rate</div>
+          </ChartTooltipContent>
+        </ChartTooltip>
+      )
+    }
+    return null
+  }
+
   return (
     <Card className="col-span-1">
       <CardHeader>
@@ -66,7 +85,7 @@ export function TaskMissHeatmap() {
           </TabsList>
           <TabsContent value="weekly" className="h-[300px]">
             <Chart>
-              <ChartContainer>
+              <ChartContainer config={{}}>
                 <ResponsiveContainer width="100%" height="100%">
                   <ScatterChart
                     margin={{
@@ -94,23 +113,7 @@ export function TaskMissHeatmap() {
                       tick={{ fontSize: 12 }}
                     />
                     <ZAxis type="number" dataKey="value" range={[100, 500]} />
-                    <Tooltip
-                      content={({ active, payload }) => {
-                        if (active && payload && payload.length) {
-                          const data = payload[0].payload
-                          return (
-                            <ChartTooltip>
-                              <ChartTooltipContent>
-                                <div className="font-medium">{areaNames[data.area]}</div>
-                                <div className="text-sm text-muted-foreground">{dayNames[data.day]}</div>
-                                <div className="mt-2 font-bold">{data.value}% Miss Rate</div>
-                              </ChartTooltipContent>
-                            </ChartTooltip>
-                          )
-                        }
-                        return null
-                      }}
-                    />
+                    <Tooltip content={renderTooltip} />
                     <Scatter data={data}>
                       {data.map((entry, index) => (
                         <Cell key={`cell-${index}`} fill={getColor(entry.value)} />
@@ -123,7 +126,7 @@ export function TaskMissHeatmap() {
           </TabsContent>
           <TabsContent value="monthly" className="h-[300px]">
             <Chart>
-              <ChartContainer>
+              <ChartContainer config={{}}>
                 <ResponsiveContainer width="100%" height="100%">
                   <ScatterChart
                     margin={{
@@ -150,23 +153,7 @@ export function TaskMissHeatmap() {
                       tick={{ fontSize: 12 }}
                     />
                     <ZAxis type="number" dataKey="value" range={[100, 500]} />
-                    <Tooltip
-                      content={({ active, payload }) => {
-                        if (active && payload && payload.length) {
-                          const data = payload[0].payload
-                          return (
-                            <ChartTooltip>
-                              <ChartTooltipContent>
-                                <div className="font-medium">{areaNames[data.area]}</div>
-                                <div className="text-sm text-muted-foreground">Day {data.day + 1}</div>
-                                <div className="mt-2 font-bold">{data.value}% Miss Rate</div>
-                              </ChartTooltipContent>
-                            </ChartTooltip>
-                          )
-                        }
-                        return null
-                      }}
-                    />
+                    <Tooltip content={renderTooltip} />
                     <Scatter data={data}>
                       {data.map((entry, index) => (
                         <Cell key={`cell-${index}`} fill={getColor(entry.value)} />

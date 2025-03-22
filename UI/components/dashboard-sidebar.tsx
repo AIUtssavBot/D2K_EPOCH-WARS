@@ -12,7 +12,6 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-  SidebarTrigger,
   SidebarGroup,
   SidebarGroupLabel,
   SidebarGroupContent,
@@ -35,14 +34,13 @@ export function DashboardSidebar() {
 
   return (
     <Sidebar>
-      <SidebarHeader className="flex items-center justify-between">
-        <Link href="/" className="flex items-center gap-2 px-2">
+      <SidebarHeader className="flex items-center justify-between px-4">
+        <Link href="/" className="flex items-center gap-2">
           <div className="flex h-8 w-8 items-center justify-center rounded-md bg-primary">
             <span className="text-lg font-bold text-primary-foreground">FD</span>
           </div>
           <span className="text-lg font-semibold">Facility Dashboard</span>
         </Link>
-        <SidebarTrigger />
       </SidebarHeader>
       <SidebarSeparator />
       <SidebarContent>
